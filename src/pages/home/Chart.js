@@ -38,6 +38,17 @@ const Chart = ({ irisData }) => {
       const xAxis = d3.axisBottom().scale(xScale);
       const yAxis = d3.axisLeft().scale(yScale);
 
+      const xAxisGrid = d3
+        .axisBottom()
+        .scale(xScale)
+        .tickFormat("")
+        .tickSize(-height);
+      const yAxisGrid = d3
+        .axisLeft()
+        .scale(yScale)
+        .tickFormat("")
+        .tickSize(-width);
+
       const tooltip = d3
         .select("body")
         .append("div")
@@ -47,6 +58,26 @@ const Chart = ({ irisData }) => {
         .style("z-index", "10")
         .style("padding", "4px 8px");
 
+      svg
+        .append("g")
+        .attr("transform", `translate(0,${height - MARGIN.BOTTOM})`)
+        .attr("class", "axis-grid")
+        .call(xAxisGrid);
+      svg
+        .append("g")
+        .attr("transform", `translate(${MARGIN.LEFT},0)`)
+        .attr("class", "axis-grid")
+        .call(yAxisGrid);
+      svg
+        .append("g")
+        .attr("transform", `translate(0,${height - MARGIN.BOTTOM})`)
+        .attr("class", "axis")
+        .call(xAxis);
+      svg
+        .append("g")
+        .attr("transform", `translate(${MARGIN.LEFT},0)`)
+        .attr("class", "axis")
+        .call(yAxis);
       svg
         .selectAll("circle")
         .data(irisData)
@@ -69,14 +100,6 @@ const Chart = ({ irisData }) => {
         .on("mouseout", (event) => {
           tooltip.transition().duration(200).style("opacity", 0);
         });
-      svg
-        .append("g")
-        .attr("transform", `translate(0,${height - MARGIN.BOTTOM})`)
-        .call(xAxis);
-      svg
-        .append("g")
-        .attr("transform", `translate(${MARGIN.LEFT},0)`)
-        .call(yAxis);
     }
   }, [irisData]);
 

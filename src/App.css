@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.axis-grid line {
+  stroke: #f0f0f0;
+}
+
+.axis-grid path {
+  stroke: #f0f0f0;
+}
