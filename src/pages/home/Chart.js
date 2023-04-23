@@ -24,8 +24,7 @@ const Chart = ({ irisData }) => {
       const svg = d3
         .select(svgRef.current)
         .attr("width", width)
-        .attr("height", height)
-        .style("background", "#d3d3d3");
+        .attr("height", height);
 
       const xScale = d3
         .scaleLinear()
@@ -39,13 +38,37 @@ const Chart = ({ irisData }) => {
       const xAxis = d3.axisBottom().scale(xScale);
       const yAxis = d3.axisLeft().scale(yScale);
 
+      const tooltip = d3
+        .select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("opacity", 0)
+        .style("background-color", "	#B8B8B8")
+        .style("z-index", "10")
+        .style("padding", "4px 8px");
+
       svg
         .selectAll("circle")
         .data(irisData)
         .join("circle")
         .attr("cx", (d) => xScale(xValue(d)))
         .attr("cy", (d) => yScale(yValue(d)))
-        .attr("r", DATA_CIRCLE_RADIUS);
+        .attr("r", DATA_CIRCLE_RADIUS)
+        .on("mouseover", function (event, d) {
+          const html = `
+            <small>X: ${xValue(d)}</small>
+            <br>
+            <small>Y: ${yValue(d)}</small>
+          `;
+          tooltip.transition().duration(200).style("opacity", 1);
+          tooltip
+            .html(html)
+            .style("left", event.pageX + 15 + "px")
+            .style("top", event.pageY - 15 + "px");
+        })
+        .on("mouseout", (event) => {
+          tooltip.transition().duration(200).style("opacity", 0);
+        });
       svg
         .append("g")
         .attr("transform", `translate(0,${height - MARGIN.BOTTOM})`)
