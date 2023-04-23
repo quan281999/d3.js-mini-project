@@ -4,6 +4,15 @@ import * as d3 from "d3";
 const xValue = (data) => data.sepalLength;
 const yValue = (data) => data.petalWidth;
 
+const MARGIN = {
+  TOP: 20,
+  RIGHT: 20,
+  BOTTOM: 40,
+  LEFT: 50,
+};
+
+const DATA_CIRCLE_RADIUS = 5;
+
 const Chart = ({ irisData }) => {
   const svgRef = useRef();
 
@@ -21,11 +30,14 @@ const Chart = ({ irisData }) => {
       const xScale = d3
         .scaleLinear()
         .domain(d3.extent(irisData, xValue))
-        .range([0, width]);
+        .range([MARGIN.LEFT, width - MARGIN.RIGHT]);
       const yScale = d3
         .scaleLinear()
         .domain(d3.extent(irisData, yValue))
-        .range([height, 0]);
+        .range([height - MARGIN.BOTTOM, MARGIN.TOP]);
+
+      const xAxis = d3.axisBottom().scale(xScale);
+      const yAxis = d3.axisLeft().scale(yScale);
 
       svg
         .selectAll("circle")
@@ -33,7 +45,15 @@ const Chart = ({ irisData }) => {
         .join("circle")
         .attr("cx", (d) => xScale(xValue(d)))
         .attr("cy", (d) => yScale(yValue(d)))
-        .attr("r", 10);
+        .attr("r", DATA_CIRCLE_RADIUS);
+      svg
+        .append("g")
+        .attr("transform", `translate(0,${height - MARGIN.BOTTOM})`)
+        .call(xAxis);
+      svg
+        .append("g")
+        .attr("transform", `translate(${MARGIN.LEFT},0)`)
+        .call(yAxis);
     }
   }, [irisData]);
 
