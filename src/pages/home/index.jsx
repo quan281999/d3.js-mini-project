@@ -27,7 +27,7 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      <Chart irisData={irisData} />
+      {irisData && <Chart irisData={irisData} />}
     </div>
   );
 };
