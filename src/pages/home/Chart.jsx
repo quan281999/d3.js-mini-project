@@ -1,33 +1,26 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import Marks from "./Marks";
+import { MARGIN, DATA_CIRCLE_RADIUS } from "./constants.ts";
 
-const xValue = (data) => data.sepalLength;
-const yValue = (data) => data.petalWidth;
+const xValue = (prop) => (data) => data[prop];
+const yValue = (prop) => (data) => data[prop];
 
-const MARGIN = {
-  TOP: 20,
-  RIGHT: 20,
-  BOTTOM: 40,
-  LEFT: 50,
-};
-
-const DATA_CIRCLE_RADIUS = 5;
-
-const Chart = ({ irisData }) => {
+const Chart = ({ irisData, x, y }) => {
   const svgRef = useRef();
   const width = window.innerWidth * 0.8;
   const height = window.innerHeight * 0.8;
   const xScale = d3
     .scaleLinear()
-    .domain(d3.extent(irisData, xValue))
+    .domain(d3.extent(irisData, xValue(x)))
     .range([MARGIN.LEFT, width - MARGIN.RIGHT]);
   const yScale = d3
     .scaleLinear()
-    .domain(d3.extent(irisData, yValue))
+    .domain(d3.extent(irisData, yValue(y)))
     .range([height - MARGIN.BOTTOM, MARGIN.TOP]);
 
   useEffect(() => {
+    const t = d3.transition().duration(1000);
     const svg = d3.select(svgRef.current);
 
     const xAxis = d3.axisBottom().scale(xScale);
@@ -45,26 +38,38 @@ const Chart = ({ irisData }) => {
       .tickSize(-width);
 
     svg
-      .append("g")
+      .selectAll(".x-grid")
+      .data([null])
+      .join("g")
+      .lower()
+      .attr("class", "x-grid")
       .attr("transform", `translate(0,${height - MARGIN.BOTTOM})`)
-      .attr("class", "axis-grid")
-      .call(xAxisGrid)
-      .lower();
+      .transition(t)
+      .call(xAxisGrid);
     svg
-      .append("g")
+      .selectAll(".y-grid")
+      .data([null])
+      .join("g")
+      .lower()
+      .attr("class", "y-grid")
       .attr("transform", `translate(${MARGIN.LEFT},0)`)
-      .attr("class", "axis-grid")
-      .call(yAxisGrid)
-      .lower();
+      .transition(t)
+      .call(yAxisGrid);
     svg
-      .append("g")
+      .selectAll(".x-axis")
+      .data([null])
+      .join("g")
+      .attr("class", "x-axis")
       .attr("transform", `translate(0,${height - MARGIN.BOTTOM})`)
-      .attr("class", "axis")
+      .transition(t)
       .call(xAxis);
     svg
-      .append("g")
+      .selectAll(".y-axis")
+      .data([null])
+      .join("g")
+      .attr("class", "y-axis")
       .attr("transform", `translate(${MARGIN.LEFT},0)`)
-      .attr("class", "axis")
+      .transition(t)
       .call(yAxis);
   }, [irisData, xScale, yScale, width, height]);
 
@@ -75,8 +80,8 @@ const Chart = ({ irisData }) => {
           data={irisData}
           xScale={xScale}
           yScale={yScale}
-          xValue={xValue}
-          yValue={yValue}
+          xValue={xValue(x)}
+          yValue={yValue(y)}
           circleRadius={DATA_CIRCLE_RADIUS}
         />
       </svg>

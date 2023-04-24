@@ -21,8 +21,9 @@ const Marks = ({ data, xScale, yScale, xValue, yValue, circleRadius }) => {
     tooltip.transition().duration(200).style("opacity", 0);
   };
 
-  return data.map((d) => (
+  return data.map((d, index) => (
     <circle
+      key={index}
       cx={xScale(xValue(d))}
       cy={yScale(yValue(d))}
       r={circleRadius}

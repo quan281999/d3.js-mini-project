@@ -1,6 +1,12 @@
-.container {
+.chart-container {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.select-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }

@@ -37,11 +37,10 @@
   }
 }
 
-.axis-grid line {
-  stroke: #f0f0f0;
-}
-
-.axis-grid path {
+.x-grid line,
+.y-grid line,
+.x-grid path,
+.y-grid path {
   stroke: #f0f0f0;
 }
 
