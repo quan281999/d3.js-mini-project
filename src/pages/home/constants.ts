@@ -16,3 +16,9 @@ export const SELECT_OPTIONS = [
 
 export const DEFAULT_X = SELECT_OPTIONS[0];
 export const DEFAULT_Y = SELECT_OPTIONS[1];
+
+export const VARIETY_COLOR_MAPPING = {
+  Setosa: "#ffba49",
+  Versicolor: "#20a39e",
+  Virginica: "#ef5b5b",
+};

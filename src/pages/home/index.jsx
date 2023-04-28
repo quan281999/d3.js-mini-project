@@ -5,6 +5,7 @@ import Select from "react-select";
 import csv from "../../data/iris.csv";
 import styles from "./index.module.css";
 import { SELECT_OPTIONS, DEFAULT_X, DEFAULT_Y } from "./constants.ts";
+import Legend from "./Legend.tsx";
 
 const HomePage = () => {
   const [irisData, setIrisData] = useState();
@@ -31,20 +32,28 @@ const HomePage = () => {
 
   return (
     <>
-      <div className={styles["select-container"]}>
-        <Select
-          placeholder="Select X"
-          onChange={(selectedOption) => setX(selectedOption.value)}
-          options={SELECT_OPTIONS}
-          defaultValue={DEFAULT_X}
-        />
-        <Select
-          placeholder="Select Y"
-          onChange={(selectedOption) => setY(selectedOption.value)}
-          options={SELECT_OPTIONS}
-          defaultValue={DEFAULT_Y}
-        />
+      <h3 style={{ color: "#2684ff" }}>IRIS DATASET</h3>
+      <div className={styles["selects-container"]}>
+        <div className={styles["select-container"]}>
+          <span style={{ marginRight: "10px" }}>X:</span>
+          <Select
+            placeholder="Select X"
+            onChange={(selectedOption) => setX(selectedOption.value)}
+            options={SELECT_OPTIONS}
+            defaultValue={DEFAULT_X}
+          />
+        </div>
+        <div className={styles["select-container"]}>
+          <span style={{ marginRight: "10px" }}>Y:</span>
+          <Select
+            placeholder="Select Y"
+            onChange={(selectedOption) => setY(selectedOption.value)}
+            options={SELECT_OPTIONS}
+            defaultValue={DEFAULT_Y}
+          />
+        </div>
       </div>
+      <Legend />
       <div className={styles["chart-container"]}>
         {irisData && <Chart irisData={irisData} x={x} y={y} />}
       </div>

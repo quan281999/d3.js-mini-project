@@ -37,17 +37,16 @@
   }
 }
 
+.x-axis line,
+.y-axis line,
+.x-axis path,
+.y-axis path {
+  stroke: #2684ff;
+}
+
 .x-grid line,
 .y-grid line,
 .x-grid path,
 .y-grid path {
-  stroke: #f0f0f0;
-}
-
-#tooltip {
-  position: absolute;
-  opacity: 0;
-  background-color: #b8b8b8;
-  z-index: 10;
-  padding: 4px 8px;
+  stroke: #deebff;
 }
