@@ -1,4 +1,5 @@
 import React from "react";
+
 import { VARIETY_COLOR_MAPPING } from "../../constants.js";
 import styles from "./index.module.css";
 

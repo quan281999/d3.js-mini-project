@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 import * as d3 from "d3";
+
 import {
   MARGIN,
-  DATA_CIRCLE_RADIUS,
+  DATA_POINT_RADIUS,
   VARIETY_COLOR_MAPPING,
   TRANSITION_DURATION,
   TOOLTIP_TRANSITION_DURATION,
@@ -78,7 +79,7 @@ const Chart = ({ irisData, x, y }) => {
       circles.attr("r", 0);
     };
     const growRadius = (enter) => {
-      enter.transition(t).attr("r", DATA_CIRCLE_RADIUS);
+      enter.transition(t).attr("r", DATA_POINT_RADIUS);
     };
 
     svg

@@ -5,7 +5,7 @@ export const MARGIN = {
   LEFT: 50,
 };
 
-export const DATA_CIRCLE_RADIUS = 5;
+export const DATA_POINT_RADIUS = 5;
 
 export const SELECT_OPTIONS = [
   { value: "sepalLength", label: "Sepal Length" },

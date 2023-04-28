@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Chart from "./Chart/index.jsx";
 import * as d3 from "d3";
 import Select from "react-select";
+
+import Chart from "./Chart/index.jsx";
 import csv from "../../data/iris.csv";
 import styles from "./index.module.css";
 import { SELECT_OPTIONS, DEFAULT_X, DEFAULT_Y } from "./constants.js";
