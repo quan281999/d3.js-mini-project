@@ -1,6 +1,6 @@
 import React from "react";
-import { VARIETY_COLOR_MAPPING } from "./constants.ts";
-import styles from "./Legend.module.css";
+import { VARIETY_COLOR_MAPPING } from "../../constants.js";
+import styles from "./index.module.css";
 
 const Legend = () => {
   return (

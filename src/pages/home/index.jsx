@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Chart from "./Chart";
+import Chart from "./Chart/index.jsx";
 import * as d3 from "d3";
 import Select from "react-select";
 import csv from "../../data/iris.csv";
 import styles from "./index.module.css";
-import { SELECT_OPTIONS, DEFAULT_X, DEFAULT_Y } from "./constants.ts";
-import Legend from "./Legend.tsx";
+import { SELECT_OPTIONS, DEFAULT_X, DEFAULT_Y } from "./constants.js";
+import Legend from "./Chart/Legend/index.jsx";
 
 const HomePage = () => {
   const [irisData, setIrisData] = useState();
@@ -32,7 +32,7 @@ const HomePage = () => {
 
   return (
     <>
-      <h3 style={{ color: "#2684ff" }}>IRIS DATASET</h3>
+      <h3 className={styles.heading}>IRIS DATASET</h3>
       <div className={styles["selects-container"]}>
         <div className={styles["select-container"]}>
           <span style={{ marginRight: "10px" }}>X:</span>

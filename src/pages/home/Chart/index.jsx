@@ -8,7 +8,7 @@ import {
   TOOLTIP_TRANSITION_DURATION,
   TOOLTIP_POSITION_OFFSET,
   CHART_SIZE_FRACTION,
-} from "./constants.ts";
+} from "../constants.js";
 
 const xValue = (prop) => (data) => data[prop];
 const yValue = (prop) => (data) => data[prop];
