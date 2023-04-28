@@ -1,20 +1,35 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 import * as d3 from "d3";
 import {
   MARGIN,
   DATA_CIRCLE_RADIUS,
   VARIETY_COLOR_MAPPING,
+  TRANSITION_DURATION,
+  TOOLTIP_TRANSITION_DURATION,
+  TOOLTIP_POSITION_OFFSET,
+  CHART_SIZE_FRACTION,
 } from "./constants.ts";
 
 const xValue = (prop) => (data) => data[prop];
 const yValue = (prop) => (data) => data[prop];
 
 const Chart = ({ irisData, x, y }) => {
+  const [screenSize, setScreenSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  useLayoutEffect(() => {
+    const updateSize = () => {
+      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
   const svgRef = useRef();
 
   useEffect(() => {
-    const width = window.innerWidth * 0.8;
-    const height = window.innerHeight * 0.8;
+    const width = screenSize.width * CHART_SIZE_FRACTION;
+    const height = screenSize.height * CHART_SIZE_FRACTION;
     const svg = d3
       .select(svgRef.current)
       .attr("width", width)
@@ -45,13 +60,14 @@ const Chart = ({ irisData, x, y }) => {
     const tooltip = d3
       .select("body")
       .append("div")
+      .style("border-radius", "5px")
+      .style("box-shadow", "rgba(0, 0, 0, 0.1) 0px 4px 12px")
       .style("position", "absolute")
       .style("opacity", 0)
-      .style("background-color", "#c1d8f0")
       .style("z-index", "10")
       .style("padding", "4px 8px");
 
-    const t = d3.transition().duration(1000);
+    const t = d3.transition().duration(TRANSITION_DURATION);
 
     const positionCircles = (circles) => {
       circles
@@ -109,29 +125,34 @@ const Chart = ({ irisData, x, y }) => {
             .call(initializeRadius)
             .call(growRadius)
             .call(positionCircles),
-        (update) =>
-          update
-            .transition(t)
-            .delay((d, i) => i * 10)
-            .call(positionCircles)
+        (update) => update.transition(t).call(positionCircles)
       )
       .attr("fill", (d) => VARIETY_COLOR_MAPPING[d.variety])
       .on("mouseover", (event, d) => {
         const html = `
+            <span>${d.variety}</span>
+            <br>
             <small>X: ${xValue(x)(d)}</small>
             <br>
             <small>Y: ${yValue(y)(d)}</small>
           `;
-        tooltip.transition().duration(200).style("opacity", 1);
+        tooltip.style("background-color", VARIETY_COLOR_MAPPING[d.variety]);
+        tooltip
+          .transition()
+          .duration(TOOLTIP_TRANSITION_DURATION)
+          .style("opacity", 1);
         tooltip
           .html(html)
-          .style("left", event.pageX + 15 + "px")
-          .style("top", event.pageY - 15 + "px");
+          .style("left", event.pageX + TOOLTIP_POSITION_OFFSET + "px")
+          .style("top", event.pageY - TOOLTIP_POSITION_OFFSET + "px");
       })
       .on("mouseout", () => {
-        tooltip.transition().duration(200).style("opacity", 0);
+        tooltip
+          .transition()
+          .duration(TOOLTIP_TRANSITION_DURATION)
+          .style("opacity", 0);
       });
-  }, [irisData, x, y]);
+  }, [irisData, x, y, screenSize]);
 
   return <svg ref={svgRef}></svg>;
 };

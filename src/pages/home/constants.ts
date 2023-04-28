@@ -22,3 +22,10 @@ export const VARIETY_COLOR_MAPPING = {
   Versicolor: "#20a39e",
   Virginica: "#ef5b5b",
 };
+
+export const TRANSITION_DURATION = 1000;
+export const TOOLTIP_TRANSITION_DURATION = 1000;
+
+export const TOOLTIP_POSITION_OFFSET = 15;
+
+export const CHART_SIZE_FRACTION = 0.8;
