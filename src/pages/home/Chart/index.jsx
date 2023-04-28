@@ -15,10 +15,12 @@ const xValue = (prop) => (data) => data[prop];
 const yValue = (prop) => (data) => data[prop];
 
 const Chart = ({ irisData, x, y }) => {
+  const svgRef = useRef();
   const [screenSize, setScreenSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+
   useLayoutEffect(() => {
     const updateSize = () => {
       setScreenSize({ width: window.innerWidth, height: window.innerHeight });
@@ -26,7 +28,6 @@ const Chart = ({ irisData, x, y }) => {
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
-  const svgRef = useRef();
 
   useEffect(() => {
     const width = screenSize.width * CHART_SIZE_FRACTION;
